@@ -1916,6 +1916,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_classes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/classes */ "./src/js/lib/modules/classes.js");
 /* harmony import */ var _modules_handlers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/handlers */ "./src/js/lib/modules/handlers.js");
 /* harmony import */ var _modules_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/actions */ "./src/js/lib/modules/actions.js");
+/* harmony import */ var _modules_effects__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/effects */ "./src/js/lib/modules/effects.js");
+
 
 
 
@@ -2175,6 +2177,78 @@ _core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.toggle = function () {
 
 /***/ }),
 
+/***/ "./src/js/lib/modules/effects.js":
+/*!***************************************!*\
+  !*** ./src/js/lib/modules/effects.js ***!
+  \***************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../core */ "./src/js/lib/core.js");
+
+
+_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.animateOverTime = function (delay, callback, final) {
+  let timeStart;
+
+  function _animateOverTime(time) {
+    if (!timeStart) {
+      timeStart = time;
+    }
+
+    let timeElapsed = time - timeStart;
+    let complection = Math.min(timeElapsed / delay, 1);
+    callback(complection);
+
+    if (timeElapsed < delay) {
+      requestAnimationFrame(_animateOverTime);
+    } else {
+      if (typeof final === "function") {
+        final();
+      }
+    }
+  }
+
+  return _animateOverTime;
+};
+
+_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.fadeIn = function (delay, display = "block", final) {
+  for (let i = 0; i < this.length; i++) {
+    this[i].style.display = display;
+
+    const _fadeIn = complection => {
+      this[i].style.opacity = complection;
+    };
+
+    const ani = this.animateOverTime(delay, _fadeIn, final);
+    requestAnimationFrame(ani);
+  }
+
+  ;
+  return this;
+};
+
+_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.fadeOut = function (delay, final) {
+  for (let i = 0; i < this.length; i++) {
+    const _fadeOut = complection => {
+      this[i].style.opacity = 1 - complection;
+
+      if (complection === 1) {
+        this[i].style.display = none;
+      }
+    };
+
+    const ani = this.animateOverTime(delay, _fadeOut, final);
+    requestAnimationFrame(ani);
+  }
+
+  ;
+  return this;
+};
+
+/***/ }),
+
 /***/ "./src/js/lib/modules/handlers.js":
 /*!****************************************!*\
   !*** ./src/js/lib/modules/handlers.js ***!
@@ -2224,29 +2298,31 @@ _core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.off = function (eventNam
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _lib_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./lib/lib */ "./src/js/lib/lib.js");
 
- //$("div").hide();//скрывает все элементы div
-//$("div").show();//показывает все элементы div скрытые методом hide
-//$(".active").toggle();// работает также, как и 2 метода до этого 
-//$(".active").addClass("hello", "world");//добавление класса(классы) к опрделенному объекту 
-//$(".active").removeClass("world");//удаление класса(классы) к опрделенному объекту 
+ // $("div").hide();//скрывает все элементы div
+// $("div").show();//показывает все элементы div скрытые методом hide
+// $(".active").toggle();// работает также, как и 2 метода до этого 
+// $(".active").addClass("hello", "world");//добавление класса(классы) к опрделенному объекту 
+// $(".active").removeClass("world");//удаление класса(классы) к опрделенному объекту 
 // function sayHello() {
 //     console.log("Hello!");
 // }
-//$(".active").on("click", sayHello);//аналог addEventListener
-//$(".active").off("click", sayHello);//аналог removeEventListener
+// $(".active").on("click", sayHello);//аналог addEventListener
+// $(".active").off("click", sayHello);//аналог removeEventListener
 // $("button").on("click", function () {
 //     $(this).toggleClass("active");
 // });
-//console.log($("button").html("Hello world!"));//аналог innerHTML
-//$("button").on("click", function () {//присвоение класса элементу под определенным номером 
-//    $("div").eq(3).toggleClass("active");
-//});
-//$("div").on("click", function () {//получение номер элемента на который мы кликнули
-//    console.log($(this).index());
-//});
-//console.log($("div").eq(2).find(".more")); 
-//console.log($(".some").closest(".findMe").addClass("hi"));// поиск ближайшего блока-родителя к заявленному элементу
-//console.log($(".more").eq(0).siblings());//показывает всех соседей выбранного блока под определенным порядковым числом
+// console.log($("button").html("Hello world!"));//аналог innerHTML
+// $("button").on("click", function () {//присвоение класса элементу под определенным номером 
+//     $("div").eq(3).toggleClass("active");
+// });
+// $("div").on("click", function () {//получение номер элемента на который мы кликнули
+//     console.log($(this).index());
+// });
+// console.log($("div").eq(2).find(".more")); 
+// console.log($(".some").closest(".findMe").addClass("hi"));// поиск ближайшего блока-родителя к заявленному элементу
+// console.log($(".more").eq(0).siblings());//показывает всех соседей выбранного блока под определенным порядковым числом 
+// $(".findMe").fadeOut(2000);//эффект исчезновения
+// $(".findMe").fadeIn(2000);//эффект появления
 
 /***/ })
 
